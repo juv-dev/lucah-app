@@ -1,0 +1,953 @@
+---
+// Plan Alimenticio Lucah - Astro page
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#1B2A6B" />
+  <meta name="description" content="Plan alimenticio blanda terapéutica para Lucah - Familia Ugaz Vegas" />
+  <title>Plan Alimenticio · Lucah 🐶</title>
+  <style>
+:root {
+    --navy:   #1B2A6B;
+    --purple: #5C3D9E;
+    --lavend: #EAE6F8;
+    --green:  #2E7D32;
+    --red:    #C62828;
+    --orange: #E65100;
+    --gold:   #F59E0B;
+    --teal:   #006064;
+    --white:  #FFFFFF;
+    --gray:   #F5F5F5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: #F0EDF8; min-height: 100vh; padding-bottom: 80px; }
+
+  /* HEADER */
+  .app-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--purple) 100%);
+    color: #fff; padding: 20px 16px 14px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .app-header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: .5px; }
+  .app-header p  { font-size: .78rem; opacity: .85; margin-top: 2px; }
+
+  /* TABS */
+  .tabs {
+    display: flex; background: var(--navy);
+    position: sticky; top: 72px; z-index: 99;
+    border-bottom: 2px solid var(--purple);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 1; min-width: 70px; padding: 10px 6px; font-size: .72rem;
+    font-weight: 600; color: rgba(255,255,255,.6); text-align: center;
+    cursor: pointer; border: none; background: none;
+    border-bottom: 3px solid transparent; transition: all .2s;
+    white-space: nowrap;
+  }
+  .tab.active { color: #fff; border-bottom-color: var(--gold); }
+  .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .content { display: none; padding: 14px; animation: fadeIn .25s ease; }
+  .content.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* CARDS */
+  .card {
+    background: #fff; border-radius: 14px; padding: 16px;
+    margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+  .card-title {
+    font-size: .8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: var(--purple); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .card-title .badge {
+    font-size: .7rem; background: var(--lavend); color: var(--purple);
+    padding: 2px 8px; border-radius: 20px; font-weight: 600;
+  }
+
+  /* RATION HEADER */
+  .ration-header {
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 10px;
+    color: #fff; font-weight: 700; font-size: .9rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ration-morning { background: linear-gradient(135deg,#1565C0,#42A5F5); }
+  .ration-noon    { background: linear-gradient(135deg,#6A1B9A,#AB47BC); }
+  .ration-night   { background: linear-gradient(135deg,#1B5E20,#43A047); }
+
+  /* INGREDIENT ROW */
+  .ing-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid #F0EDF8;
+  }
+  .ing-row:last-child { border-bottom: none; }
+  .ing-left { display: flex; align-items: center; gap: 10px; }
+  .ing-icon { font-size: 1.3rem; width: 36px; text-align: center; }
+  .ing-name { font-size: .9rem; font-weight: 600; color: #222; }
+  .ing-sub  { font-size: .72rem; color: #888; margin-top: 1px; }
+  .ing-amounts { text-align: right; }
+  .ing-cocido { font-size: 1rem; font-weight: 700; color: var(--navy); }
+  .ing-crudo  { font-size: .72rem; color: #888; margin-top: 1px; }
+  .crudo-val  { color: var(--teal); font-weight: 700; }
+
+  /* TOTAL ROW */
+  .total-row {
+    background: linear-gradient(135deg, var(--navy), var(--purple));
+    border-radius: 10px; padding: 12px 16px; margin-top: 10px;
+    display: flex; justify-content: space-between; align-items: center; color: #fff;
+  }
+  .total-label { font-size: .8rem; opacity: .9; }
+  .total-val   { font-size: 1.3rem; font-weight: 800; }
+
+  /* PILL STATS */
+  .stats-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .stat-pill {
+    flex: 1; min-width: 90px; background: #fff; border-radius: 12px;
+    padding: 12px 10px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .stat-num  { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+  .stat-unit { font-size: .65rem; color: #888; }
+  .stat-lbl  { font-size: .72rem; color: #555; margin-top: 2px; }
+
+  /* PERCENT BAR */
+  .pct-bar-wrap { margin-bottom: 14px; }
+  .pct-bar-label { display: flex; justify-content: space-between;
+                   font-size: .78rem; font-weight: 600; margin-bottom: 4px; color: #444; }
+  .pct-bar-track { background: #E8E0F0; border-radius: 10px; height: 12px; overflow: hidden; }
+  .pct-bar-fill  { height: 100%; border-radius: 10px; transition: width .6s ease; }
+
+  /* SHOPPING LIST */
+  .shop-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px; border-radius: 12px; margin-bottom: 8px;
+    background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    cursor: pointer; transition: opacity .2s;
+  }
+  .shop-item.checked { opacity: .5; }
+  .shop-item.checked .shop-name { text-decoration: line-through; }
+  .shop-cb {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid var(--purple); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .2s; font-size: .9rem;
+  }
+  .shop-item.checked .shop-cb { background: var(--green); border-color: var(--green); color: #fff; }
+  .shop-info { flex: 1; }
+  .shop-name { font-size: .92rem; font-weight: 700; color: #222; }
+  .shop-detail { font-size: .75rem; color: #888; margin-top: 2px; }
+  .shop-price {
+    text-align: right; flex-shrink: 0;
+    font-size: .9rem; font-weight: 800; color: var(--purple);
+  }
+  .shop-price-sub { font-size: .68rem; color: #aaa; }
+
+  /* COST BOX */
+  .cost-box {
+    background: linear-gradient(135deg, var(--navy), var(--purple));
+    color: #fff; border-radius: 14px; padding: 18px;
+    margin-bottom: 14px; text-align: center;
+  }
+  .cost-box .main-cost { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
+  .cost-box .cost-lbl  { font-size: .78rem; opacity: .85; margin-top: 2px; }
+  .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .cost-cell {
+    background: rgba(255,255,255,.15); border-radius: 10px; padding: 10px;
+    text-align: center;
+  }
+  .cost-cell .val { font-size: 1.1rem; font-weight: 700; }
+  .cost-cell .lbl { font-size: .65rem; opacity: .8; margin-top: 2px; }
+
+  /* SCHEDULE CARD */
+  .sched-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 0; border-bottom: 1px solid #F0EDF8;
+  }
+  .sched-row:last-child { border-bottom: none; }
+  .sched-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--lavend); color: var(--purple);
+    font-weight: 800; font-size: .85rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .sched-info { flex: 1; }
+  .sched-title { font-size: .88rem; font-weight: 700; color: #222; }
+  .sched-sub   { font-size: .72rem; color: #888; margin-top: 2px; }
+
+  /* INSTRUCTIONS */
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid #F0EDF8; font-size: .88rem; color: #333;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    font-size: .7rem; font-weight: 800; color: #fff;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .s-blue   { background: #1565C0; }
+  .s-purple { background: var(--purple); }
+  .s-green  { background: var(--green); }
+
+  /* ALERT BANNER */
+  .alert {
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 12px;
+    font-size: .82rem; font-weight: 600; display: flex; gap: 8px;
+  }
+  .alert-warn  { background: #FFF3E0; color: var(--orange); }
+  .alert-green { background: #E8F5E9; color: var(--green); }
+  .alert-red   { background: #FFEBEE; color: var(--red); }
+  .alert-info  { background: var(--lavend); color: var(--purple); }
+
+  /* TRACKER */
+  .tracker-week {
+    background: #fff; border-radius: 12px; padding: 14px;
+    margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+  .tracker-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .tracker-label { font-weight: 700; font-size: .9rem; color: var(--navy); }
+  .tracker-date  { font-size: .72rem; color: #888; }
+  .heces-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .heces-cell { text-align: center; }
+  .heces-lbl  { font-size: .65rem; color: #888; margin-bottom: 4px; }
+  .heces-btns { display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; }
+  .heces-btn  {
+    padding: 4px 6px; border-radius: 6px; border: 1.5px solid #DDD;
+    font-size: .7rem; font-weight: 700; background: #fff;
+    cursor: pointer; color: #666; transition: all .15s;
+  }
+  .heces-btn.sel-F { background: var(--green);  border-color: var(--green);  color: #fff; }
+  .heces-btn.sel-M { background: #F59E0B; border-color: #F59E0B; color: #fff; }
+  .heces-btn.sel-B { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .heces-btn.sel-A { background: var(--red);   border-color: var(--red);   color: #fff; }
+  .obs-input {
+    width: 100%; margin-top: 8px; padding: 8px 10px; border-radius: 8px;
+    border: 1.5px solid #E0E0E0; font-size: .8rem; font-family: inherit;
+    resize: none; outline: none; color: #333;
+  }
+  .obs-input:focus { border-color: var(--purple); }
+
+  /* FOOTER NOTE */
+  .footer-note {
+    text-align: center; font-size: .7rem; color: #AAA;
+    padding: 10px; margin-top: 4px;
+  }
+
+  /* ADD-TO-HOME BANNER */
+  .ath-banner {
+    background: linear-gradient(135deg, var(--gold), #F97316);
+    color: #fff; padding: 12px 16px; font-size: .8rem;
+    font-weight: 600; text-align: center; display: flex;
+    align-items: center; justify-content: center; gap: 8px;
+  }
+  .ath-banner button {
+    background: rgba(255,255,255,.25); border: none; color: #fff;
+    padding: 4px 10px; border-radius: 20px; font-size: .75rem;
+    font-weight: 700; cursor: pointer; margin-left: 4px;
+  }
+  </style>
+</head>
+<body>
+<!-- ADD TO HOME SCREEN HINT -->
+<div class="ath-banner" id="athBanner">
+  📱 Agrégala a tu pantalla de inicio para usarla como app
+  <button onclick="document.getElementById('athBanner').style.display='none'">✕</button>
+</div>
+
+<!-- HEADER -->
+<div class="app-header">
+  <h1>🐶 Plan Alimenticio · Lucah</h1>
+  <p>Dieta Blanda Terapéutica · Familia Ugaz Vegas · Abril 2026</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('raciones')">
+    <span class="tab-icon">🍽️</span>Raciones
+  </button>
+  <button class="tab" onclick="showTab('compras')">
+    <span class="tab-icon">🛒</span>Compras
+  </button>
+  <button class="tab" onclick="showTab('instrucciones')">
+    <span class="tab-icon">🍳</span>Cómo cocinar
+  </button>
+  <button class="tab" onclick="showTab('seguimiento')">
+    <span class="tab-icon">📊</span>Seguimiento
+  </button>
+  <button class="tab" onclick="showTab('transicion')">
+    <span class="tab-icon">🔄</span>Transición
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     TAB 1 — RACIONES
+════════════════════════════════════════════════════ -->
+<div class="content active" id="tab-raciones">
+
+  <!-- Resumen del día -->
+  <div class="stats-row">
+    <div class="stat-pill">
+      <div class="stat-num">300</div>
+      <div class="stat-unit">g cocido</div>
+      <div class="stat-lbl">Total/día</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num">3</div>
+      <div class="stat-unit">raciones</div>
+      <div class="stat-lbl">Comidas</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num">100</div>
+      <div class="stat-unit">g/ración</div>
+      <div class="stat-lbl">Cocido</div>
+    </div>
+  </div>
+
+  <!-- Barras de porcentaje -->
+  <div class="card">
+    <div class="card-title">📊 Composición de la dieta</div>
+    <div class="pct-bar-wrap">
+      <div class="pct-bar-label"><span>🥩 Carne</span><span>70% · 210 g/día</span></div>
+      <div class="pct-bar-track"><div class="pct-bar-fill" style="width:70%;background:linear-gradient(90deg,#1565C0,#42A5F5)"></div></div>
+    </div>
+    <div class="pct-bar-wrap">
+      <div class="pct-bar-label"><span>🌾 Quinua</span><span>20% · 60 g/día</span></div>
+      <div class="pct-bar-track"><div class="pct-bar-fill" style="width:20%;background:linear-gradient(90deg,#6A1B9A,#AB47BC)"></div></div>
+    </div>
+    <div class="pct-bar-wrap" style="margin-bottom:0">
+      <div class="pct-bar-label"><span>🥕 Verduras crudas</span><span>10% · 30 g/día</span></div>
+      <div class="pct-bar-track"><div class="pct-bar-fill" style="width:10%;background:linear-gradient(90deg,#1B5E20,#43A047)"></div></div>
+    </div>
+  </div>
+
+  <!-- RACIÓN 1 -->
+  <div class="card">
+    <div class="ration-header ration-morning">
+      <span>🌅 1ª Ración — Mañana</span>
+      <span>100 g cocido</span>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left">
+        <div class="ing-icon">🥩</div>
+        <div>
+          <div class="ing-name">Carne sancochada</div>
+          <div class="ing-sub">pesar crudo antes de cocinar</div>
+        </div>
+      </div>
+      <div class="ing-amounts">
+        <div class="ing-cocido">70 g</div>
+        <div class="ing-crudo">crudo: <span class="crudo-val">97 g</span></div>
+      </div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left">
+        <div class="ing-icon">🌾</div>
+        <div>
+          <div class="ing-name">Quinua cocida</div>
+          <div class="ing-sub">lavar bien antes de cocinar</div>
+        </div>
+      </div>
+      <div class="ing-amounts">
+        <div class="ing-cocido">20 g</div>
+        <div class="ing-crudo">crudo: <span class="crudo-val">8 g</span></div>
+      </div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left">
+        <div class="ing-icon">🥕</div>
+        <div>
+          <div class="ing-name">Verduras frescas crudas</div>
+          <div class="ing-sub">zanahoria rallada, zapallo, brócoli, etc.</div>
+        </div>
+      </div>
+      <div class="ing-amounts">
+        <div class="ing-cocido">10 g</div>
+        <div class="ing-crudo"><span class="crudo-val">se dan crudas</span></div>
+      </div>
+    </div>
+    <div class="total-row">
+      <div>
+        <div class="total-label">Total cocido</div>
+        <div style="font-size:.72rem;opacity:.75">115 g total → 100 g servido</div>
+      </div>
+      <div class="total-val">100 g</div>
+    </div>
+  </div>
+
+  <!-- RACIÓN 2 -->
+  <div class="card">
+    <div class="ration-header ration-noon">
+      <span>☀️ 2ª Ración — Mediodía</span>
+      <span>100 g cocido</span>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥩</div><div><div class="ing-name">Carne sancochada</div><div class="ing-sub">pesar crudo antes de cocinar</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">70 g</div><div class="ing-crudo">crudo: <span class="crudo-val">97 g</span></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🌾</div><div><div class="ing-name">Quinua cocida</div><div class="ing-sub">lavar bien antes de cocinar</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">20 g</div><div class="ing-crudo">crudo: <span class="crudo-val">8 g</span></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥕</div><div><div class="ing-name">Verduras frescas crudas</div><div class="ing-sub">zanahoria rallada, zapallo, brócoli, etc.</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">10 g</div><div class="ing-crudo">crudo: <span class="crudo-val">13 g</span></div></div>
+    </div>
+    <div class="total-row">
+      <div><div class="total-label">Total cocido</div><div style="font-size:.72rem;opacity:.75">115 g total → 100 g servido</div></div>
+      <div class="total-val">100 g</div>
+    </div>
+  </div>
+
+  <!-- RACIÓN 3 -->
+  <div class="card">
+    <div class="ration-header ration-night">
+      <span>🌆 3ª Ración — Tarde</span>
+      <span>100 g cocido</span>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥩</div><div><div class="ing-name">Carne sancochada</div><div class="ing-sub">pesar crudo antes de cocinar</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">70 g</div><div class="ing-crudo">crudo: <span class="crudo-val">97 g</span></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🌾</div><div><div class="ing-name">Quinua cocida</div><div class="ing-sub">lavar bien antes de cocinar</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">20 g</div><div class="ing-crudo">crudo: <span class="crudo-val">8 g</span></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥕</div><div><div class="ing-name">Verduras frescas crudas</div><div class="ing-sub">zanahoria rallada, zapallo, brócoli, etc.</div></div></div>
+      <div class="ing-amounts"><div class="ing-cocido">10 g</div><div class="ing-crudo">crudo: <span class="crudo-val">13 g</span></div></div>
+    </div>
+    <div class="total-row">
+      <div><div class="total-label">Total cocido</div><div style="font-size:.72rem;opacity:.75">115 g total → 100 g servido</div></div>
+      <div class="total-val">100 g</div>
+    </div>
+  </div>
+
+  <!-- Notas -->
+  <div class="alert alert-green">✅ La quinua firma las heces — aporta fibra que da consistencia al colon de Lucah.</div>
+  <div class="alert alert-warn">⚠️ Servir siempre a temperatura ambiente. Sin sal, sin condimentos.</div>
+  <div class="alert alert-info">💡 Cocina para 3-4 días de una vez. Refrigera porciones de 100 g y solo calienta al servir.</div>
+
+  <div class="footer-note">Total diario: ~345 g preparado → 300 g servido (verduras van crudas)</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     TAB 2 — COMPRAS
+════════════════════════════════════════════════════ -->
+<div class="content" id="tab-compras">
+
+  <div class="cost-box">
+    <div style="font-size:.8rem;opacity:.8;margin-bottom:4px">💰 Total cada 2 semanas</div>
+    <div class="main-cost">S/ 79.05</div>
+    <div class="cost-lbl">Compra quincenal · Makro Perú</div>
+    <div class="cost-grid">
+      <div class="cost-cell"><div class="val">S/ 5.69</div><div class="lbl">por día</div></div>
+      <div class="cost-cell"><div class="val">S/ 1.90</div><div class="lbl">por ración</div></div>
+      <div class="cost-cell"><div class="val">S/ 159</div><div class="lbl">mensual est.</div></div>
+      <div class="cost-cell"><div class="val">14 días</div><div class="lbl">de duración</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛒 Lista de compras <span class="badge" id="checked-count">0 / 3</span></div>
+
+    <div class="shop-item" id="item-carne" onclick="toggleItem('carne')">
+      <div class="shop-cb" id="cb-carne"></div>
+      <div class="shop-info">
+        <div class="shop-name">🥩 Carne magra (aguja / pecho de res)</div>
+        <div class="shop-detail">4.2 kg · Corte económico · Makro</div>
+      </div>
+      <div class="shop-price">
+        S/ 71.40
+        <div class="shop-price-sub">S/17.00/kg</div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="item-quinua" onclick="toggleItem('quinua')">
+      <div class="shop-cb" id="cb-quinua"></div>
+      <div class="shop-info">
+        <div class="shop-name">🌾 Quinua blanca ARO (bolsa 1 kg)</div>
+        <div class="shop-detail">0.5 kg necesario · 1 bolsa dura ~6 semanas</div>
+      </div>
+      <div class="shop-price">
+        S/ 6.40
+        <div class="shop-price-sub">S/12.79/kg ✓Makro</div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="item-verd" onclick="toggleItem('verd')">
+      <div class="shop-cb" id="cb-verd"></div>
+      <div class="shop-info">
+        <div class="shop-name">🥕 Verduras crudas variadas</div>
+        <div class="shop-detail">0.5 kg · Zanahoria, zapallo, brócoli — lo que esté fresco</div>
+      </div>
+      <div class="shop-price">
+        S/ 1.25
+        <div class="shop-price-sub">S/2.50/kg est.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">⚠️ Quinua ARO S/12.79/kg confirmado Makro. Carne y verduras son precios referenciales — verifica en tienda.</div>
+
+  <!-- Cronograma de compras -->
+  <div class="card">
+    <div class="card-title">📅 Cuándo comprar</div>
+    <div class="sched-row">
+      <div class="sched-num">1</div>
+      <div class="sched-info">
+        <div class="sched-title">Quincena 1 — Semanas 1 y 2</div>
+        <div class="sched-sub">Carne 4.2 kg · Quinua 1 bolsa (dura varias quincenas) · Verduras 0.75 kg</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-num">2</div>
+      <div class="sched-info">
+        <div class="sched-title">Quincena 2 — Semanas 3 y 4</div>
+        <div class="sched-sub">Carne 4.2 kg · Quinua — (sobra de Q1) · Verduras 0.75 kg</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-num">3</div>
+      <div class="sched-info">
+        <div class="sched-title">Quincena 3 — Semanas 5 y 6</div>
+        <div class="sched-sub">Carne 4.2 kg · Quinua — (sobra de Q1) · Verduras 0.75 kg</div>
+      </div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-num">4</div>
+      <div class="sched-info">
+        <div class="sched-title">Quincena 4 — Semanas 7 y 8</div>
+        <div class="sched-sub">Carne 4.2 kg · Quinua 1 bolsa nueva · Verduras 0.75 kg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Almacenamiento -->
+  <div class="card">
+    <div class="card-title">📦 Cómo almacenar</div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥩</div><div><div class="ing-name">Carne (4.2 kg)</div><div class="ing-sub">Dividir en bolsas de ~300 g · Congelar · Sacar día anterior a refri</div></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🌾</div><div><div class="ing-name">Quinua (1 bolsa)</div><div class="ing-sub">Envase hermético en despensa · Dura meses</div></div></div>
+    </div>
+    <div class="ing-row">
+      <div class="ing-left"><div class="ing-icon">🥕</div><div><div class="ing-name">Verduras</div><div class="ing-sub">Cajón de verduras de la refrigeradora</div></div></div>
+    </div>
+    <div class="ing-row" style="border:none">
+      <div class="ing-left"><div class="ing-icon">🍱</div><div><div class="ing-name">Porción cocida</div><div class="ing-sub">Cocinar 3-4 días · Bolsitas de 100 g · Refrigerar · Solo recalentar</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     TAB 3 — INSTRUCCIONES
+════════════════════════════════════════════════════ -->
+<div class="content" id="tab-instrucciones">
+
+  <div class="alert alert-red">⚠️ Servir SIEMPRE a temperatura ambiente · SIN sal · SIN ajo · SIN cebolla · SIN aceite</div>
+
+  <!-- Carne -->
+  <div class="card">
+    <div class="card-title" style="color:#1565C0">🥩 Carne Sancochada</div>
+    <ul class="step-list">
+      <li><div class="step-num s-blue">1</div>Cortar en trozos medianos</li>
+      <li><div class="step-num s-blue">2</div>Hervir en agua <strong>SIN SAL</strong> por 30-40 minutos</li>
+      <li><div class="step-num s-blue">3</div>Escurrir y dejar enfriar completamente antes de servir</li>
+      <li><div class="step-num s-blue">4</div>Puede prepararse para 3-4 días y refrigerar en porciones</li>
+      <li><div class="step-num s-blue">5</div>❌ NO agregar: sal, ajo, cebolla, aceite ni condimentos</li>
+    </ul>
+  </div>
+
+  <!-- Quinua -->
+  <div class="card">
+    <div class="card-title" style="color:var(--purple)">🌾 Quinua Cocida</div>
+    <div class="alert alert-info" style="margin-bottom:10px">🔑 Lavar MUY bien es clave — elimina la saponina que puede irritar el estómago</div>
+    <ul class="step-list">
+      <li><div class="step-num s-purple">1</div>Lavar en colador fino bajo agua corriente <strong>hasta que salga clara</strong></li>
+      <li><div class="step-num s-purple">2</div>Proporción: 1 taza quinua + 2 tazas agua fría</li>
+      <li><div class="step-num s-purple">3</div>Hervir a fuego medio 15-20 min, tapado</li>
+      <li><div class="step-num s-purple">4</div>Apagar cuando el germen esté abierto (se ve el anillo blanco)</li>
+      <li><div class="step-num s-purple">5</div>Reposar 5 min tapado, luego esponjar con tenedor</li>
+      <li><div class="step-num s-purple">6</div>💡 30 g crudo → 80 g cocido (rinde mucho)</li>
+    </ul>
+  </div>
+
+  <!-- Verduras -->
+  <div class="card">
+    <div class="card-title" style="color:var(--green)">🥕 Verduras Crudas (10% de la dieta)</div>
+    <div class="alert alert-green" style="margin-bottom:10px">🌿 Van crudas — sin cocción. Solo lavar, pelar y rallar o picar fino.</div>
+    <ul class="step-list">
+      <li><div class="step-num s-green">1</div>Lavar bien bajo agua corriente</li>
+      <li><div class="step-num s-green">2</div>Pelar si es necesario (zanahoria, zapallo, betarraga)</li>
+      <li><div class="step-num s-green">3</div>Rallar o picar muy fino para facilitar la digestión</li>
+      <li><div class="step-num s-green">4</div>Mezclar con la carne y quinua al momento de servir</li>
+      <li><div class="step-num s-green">5</div>Opciones ✅: zanahoria, zapallo, brócoli, lechuga, habas verdes, arvejas verdes, betarraga</li>
+      <li><div class="step-num s-green">6</div>💡 Rotar las verduras para dar variedad y nutrientes distintos</li>
+    </ul>
+  </div>
+
+  <!-- Restricciones -->
+  <div class="card">
+    <div class="card-title" style="color:var(--red)">❌ Restricciones</div>
+    <div class="alert alert-red" style="margin-bottom:6px">❌ Pollo — alergia confirmada</div>
+    <div class="alert alert-red" style="margin-bottom:6px">❌ Hígado de res o pollo — causa diarrea</div>
+    <div class="alert alert-red" style="margin-bottom:6px">❌ Bofe y mondongo — temporal hasta estabilizar</div>
+    <div class="alert alert-red" style="margin-bottom:6px">❌ Galletas Cambo — suspendidas</div>
+    <div class="alert alert-red" style="margin-bottom:0">❌ Sal, ajo, cebolla, lácteos — tóxicos o irritantes</div>
+  </div>
+
+  <!-- Señales -->
+  <div class="card">
+    <div class="card-title" style="color:var(--green)">✅ Señales de mejora (2-3 semanas)</div>
+    <div class="alert alert-green" style="margin-bottom:6px">✅ Heces firmes y uniformes en las 3 etapas</div>
+    <div class="alert alert-green" style="margin-bottom:6px">✅ Misma energía o más · Pelaje brillante</div>
+    <div class="alert alert-green" style="margin-bottom:0">✅ Sin vómitos · Apetito normal</div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--red)">🚩 Señales de alerta (ir al veterinario)</div>
+    <div class="alert alert-red" style="margin-bottom:6px">🚩 Heces siguen aguadas después de 3-4 semanas</div>
+    <div class="alert alert-red" style="margin-bottom:6px">🚩 Vómitos repetidos o baja de peso notoria</div>
+    <div class="alert alert-red" style="margin-bottom:0">🚩 Pérdida de apetito por más de 2 días</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     TAB 4 — SEGUIMIENTO
+════════════════════════════════════════════════════ -->
+<div class="content" id="tab-seguimiento">
+
+  <div class="alert alert-info">
+    📊 Registra cómo van las heces cada semana.<br>
+    <strong>F</strong>=Firme &nbsp; <strong>M</strong>=Medio &nbsp; <strong>B</strong>=Blanda &nbsp; <strong>A</strong>=Aguada<br>
+    🎯 Meta: F-F-F por 2 semanas seguidas
+  </div>
+
+  <div id="tracker-container"></div>
+
+  <button onclick="addWeek()" style="
+    width:100%; padding:14px; border-radius:12px; border:2px dashed var(--purple);
+    background:var(--lavend); color:var(--purple); font-size:.9rem; font-weight:700;
+    cursor:pointer; margin-bottom:14px;
+  ">+ Agregar semana</button>
+
+  <div class="footer-note">Los datos se guardan automáticamente en este dispositivo</div>
+</div>
+
+<script>
+// ─── TABS ───────────────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ─── SHOPPING CHECKLIST ──────────────────────────────────────────────────────
+const shopState = { carne: false, quinua: false, verd: false };
+const CHECK_MARK = '✓';
+function toggleItem(id) {
+  shopState[id] = !shopState[id];
+  const el = document.getElementById('item-'+id);
+  const cb = document.getElementById('cb-'+id);
+  el.classList.toggle('checked', shopState[id]);
+  cb.textContent = shopState[id] ? CHECK_MARK : '';
+  const checked = Object.values(shopState).filter(Boolean).length;
+  document.getElementById('checked-count').textContent = `${checked} / 3`;
+}
+
+// ─── SEGUIMIENTO ────────────────────────────────────────────────────────────
+let weeks = JSON.parse((() => { try { return localStorage.getItem('lucah_weeks') || '[]'; } catch(e) { return '[]'; } })());
+const ETAPAS = ['inicio','medio','final'];
+const OPTS   = ['F','M','B','A'];
+
+function saveWeeks() { try { localStorage.setItem('lucah_weeks', JSON.stringify(weeks)); } catch(e) {} }
+
+function renderTracker() {
+  const cont = document.getElementById('tracker-container');
+  cont.innerHTML = '';
+  weeks.forEach((w, wi) => {
+    const div = document.createElement('div');
+    div.className = 'tracker-week';
+    div.innerHTML = `
+      <div class="tracker-top">
+        <div class="tracker-label">Semana ${wi+1}</div>
+        <input type="date" value="${w.fecha||''}" style="border:none;font-size:.72rem;color:#888;outline:none;background:none;"
+          onchange="weeks[${wi}].fecha=this.value;saveWeeks();">
+      </div>
+      <div class="heces-grid">
+        ${ETAPAS.map(et => `
+          <div class="heces-cell">
+            <div class="heces-lbl">${et.charAt(0).toUpperCase()+et.slice(1)}</div>
+            <div class="heces-btns">
+              ${OPTS.map(opt => `
+                <button class="heces-btn ${w[et]===opt?'sel-'+opt:''}"
+                  onclick="setHeces(${wi},'${et}','${opt}')">${opt}</button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <textarea class="obs-input" rows="2" placeholder="Observaciones..."
+        onchange="weeks[${wi}].obs=this.value;saveWeeks();">${w.obs||''}</textarea>
+    `;
+    cont.appendChild(div);
+  });
+}
+
+function setHeces(wi, etapa, val) {
+  weeks[wi][etapa] = weeks[wi][etapa] === val ? '' : val;
+  saveWeeks();
+  renderTracker();
+}
+
+function addWeek() {
+  weeks.push({ fecha:'', inicio:'', medio:'', final:'', obs:'' });
+  saveWeeks();
+  renderTracker();
+  setTimeout(() => document.querySelector('.tracker-week:last-child')
+    .scrollIntoView({ behavior:'smooth', block:'center' }), 100);
+}
+
+// Init tracker
+if (weeks.length === 0) { weeks = [{ fecha:'', inicio:'', medio:'', final:'', obs:'' }]; saveWeeks(); }
+renderTracker();
+
+// ─── TRANSICIÓN ──────────────────────────────────────────────────────────────
+const transData = {
+  1: { pct: 30,  label: 'Día 1: 30% comida nueva → 70% comida anterior' },
+  2: { pct: 60,  label: 'Día 2: 60% comida nueva → 40% comida anterior' },
+  3: { pct: 100, label: 'Día 3+: 100% comida nueva ✅ Plan completo' },
+};
+function setTransDay(d) {
+  document.querySelectorAll('.trans-day-btn').forEach(b => {
+    b.classList.remove('active-day');
+    if (!b.classList.contains('done-day')) b.classList.remove('done-day');
+  });
+  document.getElementById('td'+d).classList.add('active-day');
+  const bar   = document.getElementById('trans-bar');
+  const label = document.getElementById('trans-label');
+  bar.style.width = transData[d].pct + '%';
+  label.textContent = transData[d].label;
+}
+
+</script>
+<script>
+// ─── TABS ───────────────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ─── SHOPPING CHECKLIST ──────────────────────────────────────────────────────
+const shopState = { carne: false, quinua: false, verd: false };
+const CHECK_MARK = '✓';
+function toggleItem(id) {
+  shopState[id] = !shopState[id];
+  const el = document.getElementById('item-'+id);
+  const cb = document.getElementById('cb-'+id);
+  el.classList.toggle('checked', shopState[id]);
+  cb.textContent = shopState[id] ? CHECK_MARK : '';
+  const checked = Object.values(shopState).filter(Boolean).length;
+  document.getElementById('checked-count').textContent = `${checked} / 3`;
+}
+
+// ─── SEGUIMIENTO ────────────────────────────────────────────────────────────
+let weeks = JSON.parse((() => { try { return localStorage.getItem('lucah_weeks') || '[]'; } catch(e) { return '[]'; } })());
+const ETAPAS = ['inicio','medio','final'];
+const OPTS   = ['F','M','B','A'];
+
+function saveWeeks() { try { localStorage.setItem('lucah_weeks', JSON.stringify(weeks)); } catch(e) {} }
+
+function renderTracker() {
+  const cont = document.getElementById('tracker-container');
+  cont.innerHTML = '';
+  weeks.forEach((w, wi) => {
+    const div = document.createElement('div');
+    div.className = 'tracker-week';
+    div.innerHTML = `
+      <div class="tracker-top">
+        <div class="tracker-label">Semana ${wi+1}</div>
+        <input type="date" value="${w.fecha||''}" style="border:none;font-size:.72rem;color:#888;outline:none;background:none;"
+          onchange="weeks[${wi}].fecha=this.value;saveWeeks();">
+      </div>
+      <div class="heces-grid">
+        ${ETAPAS.map(et => `
+          <div class="heces-cell">
+            <div class="heces-lbl">${et.charAt(0).toUpperCase()+et.slice(1)}</div>
+            <div class="heces-btns">
+              ${OPTS.map(opt => `
+                <button class="heces-btn ${w[et]===opt?'sel-'+opt:''}"
+                  onclick="setHeces(${wi},'${et}','${opt}')">${opt}</button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <textarea class="obs-input" rows="2" placeholder="Observaciones..."
+        onchange="weeks[${wi}].obs=this.value;saveWeeks();">${w.obs||''}</textarea>
+    `;
+    cont.appendChild(div);
+  });
+}
+
+function setHeces(wi, etapa, val) {
+  weeks[wi][etapa] = weeks[wi][etapa] === val ? '' : val;
+  saveWeeks();
+  renderTracker();
+}
+
+function addWeek() {
+  weeks.push({ fecha:'', inicio:'', medio:'', final:'', obs:'' });
+  saveWeeks();
+  renderTracker();
+  setTimeout(() => document.querySelector('.tracker-week:last-child')
+    .scrollIntoView({ behavior:'smooth', block:'center' }), 100);
+}
+
+// Init tracker
+if (weeks.length === 0) { weeks = [{ fecha:'', inicio:'', medio:'', final:'', obs:'' }]; saveWeeks(); }
+renderTracker();
+
+// ─── TRANSICIÓN ──────────────────────────────────────────────────────────────
+const transData = {
+  1: { pct: 30,  label: 'Día 1: 30% comida nueva → 70% comida anterior' },
+  2: { pct: 60,  label: 'Día 2: 60% comida nueva → 40% comida anterior' },
+  3: { pct: 100, label: 'Día 3+: 100% comida nueva ✅ Plan completo' },
+};
+function setTransDay(d) {
+  document.querySelectorAll('.trans-day-btn').forEach(b => {
+    b.classList.remove('active-day');
+    if (!b.classList.contains('done-day')) b.classList.remove('done-day');
+  });
+  document.getElementById('td'+d).classList.add('active-day');
+  const bar   = document.getElementById('trans-bar');
+  const label = document.getElementById('trans-label');
+  bar.style.width = transData[d].pct + '%';
+  label.textContent = transData[d].label;
+}
+
+</script>
+
+<!-- ════════════════════════════════════════════════════
+     TAB 5 — TRANSICIÓN
+════════════════════════════════════════════════════ -->
+<div class="content" id="tab-transicion">
+
+  <div class="alert alert-info">
+    🔄 Como Lucah venía comiendo bofe y mondongo, se recomienda una transición gradual de 3 días para que su estómago se adapte sin estrés.
+  </div>
+
+  <!-- Tabla de transición -->
+  <div class="card">
+    <div class="card-title">📅 Plan de transición (primeros 3 días)</div>
+
+    <!-- Día 1 -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-weight:700;font-size:.95rem;color:#1B2A6B;">Día 1</span>
+        <span style="font-size:.78rem;color:#888;">300 g cocido total</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#FFEBEE;border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:1.6rem;font-weight:900;color:#C62828;">70%</div>
+          <div style="font-size:.78rem;font-weight:700;color:#C62828;">Comida anterior</div>
+          <div style="font-size:.7rem;color:#888;margin-top:2px;">bofe / mondongo</div>
+          <div style="font-size:.9rem;font-weight:700;color:#C62828;margin-top:4px;">210 g</div>
+        </div>
+        <div style="background:#E8F5E9;border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:1.6rem;font-weight:900;color:#2E7D32;">30%</div>
+          <div style="font-size:.78rem;font-weight:700;color:#2E7D32;">Comida nueva</div>
+          <div style="font-size:.7rem;color:#888;margin-top:2px;">carne + quinua + verduras</div>
+          <div style="font-size:.9rem;font-weight:700;color:#2E7D32;margin-top:4px;">90 g</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Día 2 -->
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-weight:700;font-size:.95rem;color:#1B2A6B;">Día 2</span>
+        <span style="font-size:.78rem;color:#888;">300 g cocido total</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#FFEBEE;border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:1.6rem;font-weight:900;color:#C62828;">40%</div>
+          <div style="font-size:.78rem;font-weight:700;color:#C62828;">Comida anterior</div>
+          <div style="font-size:.7rem;color:#888;margin-top:2px;">bofe / mondongo</div>
+          <div style="font-size:.9rem;font-weight:700;color:#C62828;margin-top:4px;">120 g</div>
+        </div>
+        <div style="background:#E8F5E9;border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:1.6rem;font-weight:900;color:#2E7D32;">60%</div>
+          <div style="font-size:.78rem;font-weight:700;color:#2E7D32;">Comida nueva</div>
+          <div style="font-size:.7rem;color:#888;margin-top:2px;">carne + quinua + verduras</div>
+          <div style="font-size:.9rem;font-weight:700;color:#2E7D32;margin-top:4px;">180 g</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Día 3+ -->
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-weight:700;font-size:.95rem;color:#1B2A6B;">Día 3 en adelante</span>
+        <span style="font-size:.78rem;color:#888;">300 g cocido total</span>
+      </div>
+      <div style="background:linear-gradient(135deg,#1B2A6B,#5C3D9E);border-radius:10px;padding:16px;text-align:center;">
+        <div style="font-size:2rem;font-weight:900;color:#fff;">100%</div>
+        <div style="font-size:.9rem;font-weight:700;color:#fff;margin-top:4px;">🎯 Solo comida nueva</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.8);margin-top:4px;">carne + quinua + verduras crudas</div>
+        <div style="font-size:1.1rem;font-weight:700;color:#F59E0B;margin-top:6px;">300 g · 3 raciones de 100 g</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de progreso visual -->
+  <div class="card">
+    <div class="card-title">📊 Progreso de la transición</div>
+    <div id="trans-progress" style="margin-bottom:8px;">
+      <div style="display:flex;gap:6px;margin-bottom:12px;">
+        <button onclick="setTransDay(1)" id="td1" class="trans-day-btn active-day">Día 1</button>
+        <button onclick="setTransDay(2)" id="td2" class="trans-day-btn">Día 2</button>
+        <button onclick="setTransDay(3)" id="td3" class="trans-day-btn done-day">Día 3+ ✅</button>
+      </div>
+      <div style="background:#E8E0F0;border-radius:10px;height:16px;overflow:hidden;margin-bottom:6px;">
+        <div id="trans-bar" style="height:100%;border-radius:10px;background:linear-gradient(90deg,#2E7D32,#43A047);transition:width .5s ease;width:30%"></div>
+      </div>
+      <div id="trans-label" style="font-size:.78rem;color:#666;text-align:center;">Día 1: 30% comida nueva</div>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    ⚠️ Durante la transición pueden haber heces algo blandas — es normal. Si hay vómitos o diarrea fuerte, consulta al veterinario.
+  </div>
+
+  <div class="alert alert-green">
+    ✅ Después del Día 3, Lucah estará en el plan completo: 3 raciones de 100 g cada una.
+  </div>
+</div>
+
+<style>
+.trans-day-btn {
+  flex:1; padding:8px; border-radius:8px; border:2px solid #DDD;
+  font-size:.8rem; font-weight:700; background:#fff; color:#888; cursor:pointer;
+  transition:all .2s;
+}
+.trans-day-btn.active-day { border-color:#5C3D9E; background:#EAE6F8; color:#5C3D9E; }
+.trans-day-btn.done-day   { border-color:#2E7D32; background:#E8F5E9; color:#2E7D32; }
+</style>
+
+</body>
+</html>
