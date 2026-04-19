@@ -2,7 +2,7 @@ name: PR / load-values
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: '10.28.2'
 
       - uses: actions/setup-node@v4
         with:
