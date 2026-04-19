@@ -60,13 +60,13 @@ describe('totalFortnight()', () => {
 
 describe('dailyCost()', () => {
   it('calculates cost per day from fortnightly total', () => {
-    const total = totalFortnight(); // 79.05
+    const total = totalFortnight();
     const expected = Math.round((total / 14) * 100) / 100;
     expect(dailyCost()).toBe(expected);
   });
 
   it('accepts a custom fortnightly total', () => {
-    expect(dailyCost(140)).toBe(10.00); // 140 / 14 = 10
+    expect(dailyCost(140)).toBe(10.00);
   });
 });
 
@@ -78,7 +78,7 @@ describe('perRationCost()', () => {
   });
 
   it('accepts a custom daily cost', () => {
-    expect(perRationCost(3.00)).toBe(1.00); // 3 / 3 = 1
+    expect(perRationCost(3.00)).toBe(1.00);
   });
 });
 
