@@ -1,5 +1,6 @@
 ---
 // Plan Alimenticio Lucah - Astro page
+import '../styles/global.css';
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -645,104 +646,6 @@
   <div class="footer-note">Los datos se guardan automáticamente en este dispositivo</div>
 </div>
 
-<script>
-// ─── TABS ───────────────────────────────────────────────────────────────────
-function showTab(id) {
-  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
-
-// ─── SHOPPING CHECKLIST ──────────────────────────────────────────────────────
-const shopState = { carne: false, quinua: false, verd: false };
-const CHECK_MARK = '✓';
-function toggleItem(id) {
-  shopState[id] = !shopState[id];
-  const el = document.getElementById('item-'+id);
-  const cb = document.getElementById('cb-'+id);
-  el.classList.toggle('checked', shopState[id]);
-  cb.textContent = shopState[id] ? CHECK_MARK : '';
-  const checked = Object.values(shopState).filter(Boolean).length;
-  document.getElementById('checked-count').textContent = `${checked} / 3`;
-}
-
-// ─── SEGUIMIENTO ────────────────────────────────────────────────────────────
-let weeks = JSON.parse((() => { try { return localStorage.getItem('lucah_weeks') || '[]'; } catch(e) { return '[]'; } })());
-const ETAPAS = ['inicio','medio','final'];
-const OPTS   = ['F','M','B','A'];
-
-function saveWeeks() { try { localStorage.setItem('lucah_weeks', JSON.stringify(weeks)); } catch(e) {} }
-
-function renderTracker() {
-  const cont = document.getElementById('tracker-container');
-  cont.innerHTML = '';
-  weeks.forEach((w, wi) => {
-    const div = document.createElement('div');
-    div.className = 'tracker-week';
-    div.innerHTML = `
-      <div class="tracker-top">
-        <div class="tracker-label">Semana ${wi+1}</div>
-        <input type="date" value="${w.fecha||''}" style="border:none;font-size:.72rem;color:#888;outline:none;background:none;"
-          onchange="weeks[${wi}].fecha=this.value;saveWeeks();">
-      </div>
-      <div class="heces-grid">
-        ${ETAPAS.map(et => `
-          <div class="heces-cell">
-            <div class="heces-lbl">${et.charAt(0).toUpperCase()+et.slice(1)}</div>
-            <div class="heces-btns">
-              ${OPTS.map(opt => `
-                <button class="heces-btn ${w[et]===opt?'sel-'+opt:''}"
-                  onclick="setHeces(${wi},'${et}','${opt}')">${opt}</button>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-      <textarea class="obs-input" rows="2" placeholder="Observaciones..."
-        onchange="weeks[${wi}].obs=this.value;saveWeeks();">${w.obs||''}</textarea>
-    `;
-    cont.appendChild(div);
-  });
-}
-
-function setHeces(wi, etapa, val) {
-  weeks[wi][etapa] = weeks[wi][etapa] === val ? '' : val;
-  saveWeeks();
-  renderTracker();
-}
-
-function addWeek() {
-  weeks.push({ fecha:'', inicio:'', medio:'', final:'', obs:'' });
-  saveWeeks();
-  renderTracker();
-  setTimeout(() => document.querySelector('.tracker-week:last-child')
-    .scrollIntoView({ behavior:'smooth', block:'center' }), 100);
-}
-
-// Init tracker
-if (weeks.length === 0) { weeks = [{ fecha:'', inicio:'', medio:'', final:'', obs:'' }]; saveWeeks(); }
-renderTracker();
-
-// ─── TRANSICIÓN ──────────────────────────────────────────────────────────────
-const transData = {
-  1: { pct: 30,  label: 'Día 1: 30% comida nueva → 70% comida anterior' },
-  2: { pct: 60,  label: 'Día 2: 60% comida nueva → 40% comida anterior' },
-  3: { pct: 100, label: 'Día 3+: 100% comida nueva ✅ Plan completo' },
-};
-function setTransDay(d) {
-  document.querySelectorAll('.trans-day-btn').forEach(b => {
-    b.classList.remove('active-day');
-    if (!b.classList.contains('done-day')) b.classList.remove('done-day');
-  });
-  document.getElementById('td'+d).classList.add('active-day');
-  const bar   = document.getElementById('trans-bar');
-  const label = document.getElementById('trans-label');
-  bar.style.width = transData[d].pct + '%';
-  label.textContent = transData[d].label;
-}
-
-</script>
 <script>
 // ─── TABS ───────────────────────────────────────────────────────────────────
 function showTab(id) {

@@ -2,7 +2,7 @@ name: PR / load-values
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 permissions:
   contents: read
@@ -15,16 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: '10.28.2'
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: npm ci
 
       - name: Load project values
         id: values
