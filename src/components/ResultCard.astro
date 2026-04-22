@@ -1,0 +1,46 @@
+---
+---
+<section class="px-6 pb-24">
+  <div class="mx-auto max-w-3xl">
+    <div
+      class="relative overflow-hidden rounded-3xl border border-line p-8 sm:p-10 shadow-lg shadow-ink/5 animate-fade-up bg-gradient-to-br from-mint via-surface to-pink"
+      style="animation-delay: .1s"
+    >
+      <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-mint-ink/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-pink-ink/10 blur-3xl pointer-events-none"></div>
+
+      <div class="relative">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+            Total de la ración
+          </span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-surface/80 backdrop-blur px-3 py-1 text-xs font-semibold text-mint-ink shadow-sm border border-mint-ink/20">
+            <span class="h-1.5 w-1.5 rounded-full bg-mint-ink"></span>
+            Vista en <span data-result-mode-label>crudo</span>
+          </span>
+        </div>
+
+        <div class="mt-6 flex items-baseline gap-3">
+          <span
+            id="result-total"
+            class="text-7xl sm:text-8xl font-extrabold tracking-tight text-ink tabular-nums"
+          >—</span>
+          <span class="text-xl sm:text-2xl font-semibold text-muted">g</span>
+        </div>
+
+        <p class="mt-1 text-sm text-muted" data-result-caption>lo que vas a pesar antes de cocinar</p>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-3" data-breakdown></div>
+
+        <p class="mt-6 flex items-start gap-2 text-sm text-muted">
+          <span class="text-base leading-none">💡</span>
+          <span>
+            La <strong class="text-ink font-semibold">carne</strong> pierde peso al cocinarse,
+            la <strong class="text-ink font-semibold">quinua</strong> lo gana absorbiendo agua,
+            la <strong class="text-ink font-semibold">verdura</strong> va cruda.
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
