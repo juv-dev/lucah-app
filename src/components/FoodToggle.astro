@@ -1,0 +1,31 @@
+---
+interface Props {
+  initial?: 'raw' | 'cooked';
+}
+const { initial = 'raw' } = Astro.props;
+---
+<div
+  class="inline-flex items-center gap-1 rounded-2xl bg-cream border border-line p-1 shadow-inner"
+  role="tablist"
+  aria-label="Modo de alimentación"
+  data-food-toggle
+>
+  <button
+    type="button"
+    role="tab"
+    data-mode="raw"
+    aria-selected={initial === 'raw'}
+    class="food-opt rounded-xl px-5 py-2 text-sm font-semibold transition-all duration-200"
+  >
+    🥩 Crudo
+  </button>
+  <button
+    type="button"
+    role="tab"
+    data-mode="cooked"
+    aria-selected={initial === 'cooked'}
+    class="food-opt rounded-xl px-5 py-2 text-sm font-semibold transition-all duration-200"
+  >
+    🔥 Cocido
+  </button>
+</div>
