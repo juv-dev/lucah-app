@@ -1,0 +1,45 @@
+---
+interface Props {
+  ctaHref?: string;
+}
+const { ctaHref = '#calculator' } = Astro.props;
+---
+<section class="relative overflow-hidden px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
+  <div class="absolute inset-0 -z-10 pointer-events-none">
+    <div class="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[720px] h-[720px] rounded-full bg-mint/50 blur-3xl animate-blob"></div>
+    <div class="absolute top-40 right-[-80px] w-[380px] h-[380px] rounded-full bg-pink/40 blur-3xl animate-blob" style="animation-delay: -4s"></div>
+    <div class="absolute top-60 left-[-80px] w-[360px] h-[360px] rounded-full bg-sky/40 blur-3xl animate-blob" style="animation-delay: -8s"></div>
+  </div>
+
+  <div class="mx-auto max-w-3xl text-center">
+    <span class="inline-flex items-center gap-2 rounded-full bg-surface/70 backdrop-blur border border-line px-4 py-1.5 text-sm font-medium text-muted shadow-sm animate-fade-up">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full rounded-full bg-mint-ink opacity-70 animate-ping"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-mint-ink"></span>
+      </span>
+      Nutrición canina · cálculo exacto
+    </span>
+
+    <h1 class="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight text-ink animate-fade-up leading-[1.05]" style="animation-delay: .08s">
+      La comida perfecta<br class="hidden sm:block" /> para tu perrito
+      <span class="inline-block">🐾</span>
+    </h1>
+
+    <p class="mt-6 text-lg sm:text-xl text-muted leading-relaxed max-w-2xl mx-auto animate-fade-up" style="animation-delay: .16s">
+      Cada ingrediente cambia distinto al cocinarse: la carne <span class="text-ink font-semibold">pierde peso</span>,
+      la quinua lo <span class="text-ink font-semibold">gana</span>. Ingresá lo que come y te decimos cuánto crudo pesar.
+    </p>
+
+    <div class="mt-10 flex items-center justify-center gap-3 animate-fade-up" style="animation-delay: .24s">
+      <a
+        href={ctaHref}
+        class="group inline-flex items-center gap-2 rounded-2xl bg-ink px-6 py-3.5 text-sm font-semibold text-cream shadow-lg shadow-ink/10 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-ink/20"
+      >
+        Calcular porción
+        <svg class="h-4 w-4 transition-transform group-hover:translate-y-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10 3a1 1 0 0 1 1 1v10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 14.586V4a1 1 0 0 1 1-1Z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
