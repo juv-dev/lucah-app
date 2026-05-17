@@ -1,8 +1,9 @@
 packages:
   - .
 
-onlyBuiltDependencies:
-  - esbuild
+allowBuilds:
+  esbuild: true
+  sharp: true
 
 pnpm:
   minimumReleaseAge: 1440
