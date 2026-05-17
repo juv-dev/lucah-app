@@ -1,4 +1,4 @@
-name: PR / validate-tag
+name: Frontend / Validate Tag
 
 on:
   pull_request:
@@ -6,4 +6,4 @@ on:
 
 jobs:
   validate-tag:
-    uses: juv-dev/workflows-frontend/.github/workflows/pr-validate-tag.yml@v1.0.0
+    uses: juv-dev/workflows-frontend/.github/workflows/pr-validate-tag.yml@v1.1.0
