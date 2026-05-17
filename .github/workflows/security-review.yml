@@ -1,4 +1,4 @@
-name: PR / security-review
+name: Frontend / Security Review
 
 on:
   push:
@@ -10,4 +10,4 @@ on:
 
 jobs:
   analyze:
-    uses: juv-dev/workflows-frontend/.github/workflows/security-review.yml@v1.0.0
+    uses: juv-dev/workflows-frontend/.github/workflows/security-review.yml@v1.1.0
