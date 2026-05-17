@@ -10,4 +10,4 @@ on:
 
 jobs:
   analyze:
-    uses: juv-dev/workflows-frontend/.github/workflows/security-review.yml@main
+    uses: juv-dev/workflows-frontend/.github/workflows/security-review.yml@v1.0.0

@@ -7,5 +7,5 @@ on:
 
 jobs:
   release-please:
-    uses: juv-dev/workflows-frontend/.github/workflows/release-please.yml@main
+    uses: juv-dev/workflows-frontend/.github/workflows/release-please.yml@v1.0.0
     secrets: inherit
