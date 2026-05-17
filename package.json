@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "astro": "6.1.8"
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "4.2.2",
     "@vitest/coverage-v8": "4.1.4",
+    "husky": "9.1.7",
     "tailwindcss": "4.2.2",
     "typescript": "5.8.3",
     "vitest": "4.1.4"
