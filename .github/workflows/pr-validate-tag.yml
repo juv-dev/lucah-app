@@ -6,4 +6,4 @@ on:
 
 jobs:
   validate-tag:
-    uses: juv-dev/workflows-frontend/.github/workflows/pr-validate-tag.yml@main
+    uses: juv-dev/workflows-frontend/.github/workflows/pr-validate-tag.yml@v1.0.0
