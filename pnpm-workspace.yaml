@@ -4,11 +4,13 @@ packages:
 allowBuilds:
   esbuild: true
   sharp: true
+  '@tailwindcss/oxide': true
 
-pnpm:
-  minimumReleaseAge: 1440
-  blockExoticSubdeps: true
-  trustPolicy: no-downgrade
-  overrides:
-    minimatch@>=9.0.0 <9.0.7: '>=9.0.7'
-    serialize-javascript@<=7.0.2: '>=7.0.3'
+overrides:
+  devalue: '>=5.8.1'
+  minimatch@>=9.0.0 <9.0.7: '>=9.0.7'
+  serialize-javascript@<=7.0.2: '>=7.0.3'
+
+minimumReleaseAge: 4320
+blockExoticSubdeps: true
+strictDepBuilds: true

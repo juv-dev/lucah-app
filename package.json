@@ -14,11 +14,6 @@
   "dependencies": {
     "astro": "6.1.10"
   },
-  "pnpm": {
-    "overrides": {
-      "devalue": ">=5.8.1"
-    }
-  },
   "devDependencies": {
     "@tailwindcss/vite": "4.2.2",
     "@vitest/coverage-v8": "4.1.4",
