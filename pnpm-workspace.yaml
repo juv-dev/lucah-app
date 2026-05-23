@@ -7,9 +7,13 @@ allowBuilds:
   '@tailwindcss/oxide': true
 
 overrides:
-  devalue: '>=5.8.1'
-  minimatch@>=9.0.0 <9.0.7: '>=9.0.7'
-  serialize-javascript@<=7.0.2: '>=7.0.3'
+  devalue: "5.8.1"
+  brace-expansion: "5.0.6"
+  minimatch: "9.0.9"
+  postcss: "8.5.15"
+  js-cookie: "3.0.7"
+  ws: "8.21.0"
+  serialize-javascript: "7.0.3"
 
 minimumReleaseAge: 4320
 blockExoticSubdeps: true
