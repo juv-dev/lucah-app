@@ -4,6 +4,7 @@ packages:
 allowBuilds:
   esbuild: true
   sharp: true
+  '@tailwindcss/oxide': true
 
 overrides:
   devalue: '>=5.8.1'

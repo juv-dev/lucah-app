@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  devalue: '>=5.8.1'
+  minimatch@>=9.0.0 <9.0.7: '>=9.0.7'
+  serialize-javascript@<=7.0.2: '>=7.0.3'
+
 importers:
 
   .:
