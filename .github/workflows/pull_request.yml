@@ -5,8 +5,17 @@ on:
     branches: [main]
 
 jobs:
+  no-ai-artifacts:
+    name: no-ai-artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: juv-dev/workflows-frontend/.github/actions/no-ai-artifacts@main
+
   vulnerability-scan:
     name: vulnerability-scan
+    needs: no-ai-artifacts
     runs-on: ubuntu-latest
     permissions:
       contents: read
